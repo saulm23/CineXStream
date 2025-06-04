@@ -1,10 +1,9 @@
-import HomeTemplate from '@/componentes/templates/HomeTemplate';
-import HomeLayout from './componentes/templates/HomeLayout';
-
+import TopBar from "@/components1/TopBar"
+import React from "react"
 export default function Home() {
   return (
   <div>
-    <HomeTemplate/>
+    <TopBar/>
   </div>
   )
 }
