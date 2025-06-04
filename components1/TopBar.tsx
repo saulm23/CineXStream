@@ -4,10 +4,8 @@ import { Bell } from 'lucide-react'
 
 const TopBar = () => (
   <div className="w-full flex items-center justify-between px-4 py-3 bg-[#120029]">
-    {/* Left Spacer (for symmetry or optional back button) */}
     <div className="w-10" />
 
-    {/* Centered Logo */}
     <div className="flex justify-center flex-1">
       <Image
         src="/logo.svg"

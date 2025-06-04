@@ -1,1 +1,6 @@
-{}
+{
+  "/Combos": "pages/Combos.js",
+  "/Tickets": "pages/Tickets.js",
+  "/_app": "pages/_app.js",
+  "/_document": "pages/_document.js"
+}
