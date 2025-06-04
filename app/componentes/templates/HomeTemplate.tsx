@@ -1,3 +1,9 @@
-export default function HomeTemplate() {
-  return <h1>Hello from HomeTemplaaate</h1>;
+import React from 'react'
+
+const HomeTemplate = () => {
+  return (
+    <div></div>
+  )
 }
+
+export default HomeTemplate
