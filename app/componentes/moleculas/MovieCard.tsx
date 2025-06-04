@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 type Props = {
   title: string;
   subtitle: string;
@@ -7,7 +9,7 @@ type Props = {
 export default function MovieCard({ title, subtitle, isNew }: Props) {
   return (
     <div className="bg-purple-800 rounded-xl overflow-hidden w-40 min-w-[160px] flex-shrink-0 relative">
-      <img
+      <Image
         src="/images/spiderman.jpg"
         alt={title}
         className="w-full h-40 object-cover"
