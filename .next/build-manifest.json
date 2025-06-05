@@ -1,20 +1,12 @@
 {
   "pages": {
-    "/Combos": [
-      "static/chunks/node_modules_next_dist_4f3d469a._.js",
+    "/CandyPage": [
+      "static/chunks/node_modules_next_081c4778._.js",
       "static/chunks/node_modules_react-dom_82bb97c6._.js",
-      "static/chunks/node_modules_2a5cf4bb._.js",
-      "static/chunks/[root-of-the-server]__ccb90569._.js",
-      "static/chunks/pages_Combos_5771e187._.js",
-      "static/chunks/pages_Combos_183636c5._.js"
-    ],
-    "/Tickets": [
-      "static/chunks/node_modules_next_dist_4f3d469a._.js",
-      "static/chunks/node_modules_react-dom_82bb97c6._.js",
-      "static/chunks/node_modules_2a5cf4bb._.js",
-      "static/chunks/[root-of-the-server]__00e37124._.js",
-      "static/chunks/pages_Tickets_5771e187._.js",
-      "static/chunks/pages_Tickets_315ec64f._.js"
+      "static/chunks/node_modules_d8ec9312._.js",
+      "static/chunks/[root-of-the-server]__8f17c5c9._.js",
+      "static/chunks/pages_CandyPage_5771e187._.js",
+      "static/chunks/pages_CandyPage_f2458bb2._.js"
     ],
     "/_app": [
       "static/chunks/[root-of-the-server]__e2c08166._.js",
