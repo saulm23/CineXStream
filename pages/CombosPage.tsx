@@ -14,7 +14,7 @@ const CombosPage = () => {
         <div>
           <Combos/>
         </div>
-        
+        <button>Realizar Compra</button>
     </div>
   )
 }
