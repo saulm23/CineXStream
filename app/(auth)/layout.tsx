@@ -8,7 +8,6 @@ import logo from '../../public/logo.svg'
 const AuthLayout = ({ children }: { children: ReactNode }) => {
   return (
     <div className="relative w-full h-screen overflow-hidden">
-      {/* Blurred Background */}
       <Image
         src={backgroundImage}
         alt="Background Image"
@@ -17,7 +16,6 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
         priority
       />
 
-      {/* Centered Content with Logo and Form */}
       <div className="absolute inset-0 z-30 flex justify-center items-center px-4">
         <div className="flex flex-col items-center gap-6">
           <Image

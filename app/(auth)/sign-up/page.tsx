@@ -7,6 +7,7 @@ import Image from "next/image";
 import React from "react";
 import google from "../../../public/google.svg";
 import { Button } from "@/components/ui/button";
+import GoogleSignInButton from "@/components1/SignInButton";
 
 const Signup = () => {
   return (
@@ -43,9 +44,7 @@ const Signup = () => {
 
         {/* Centered Google Button */}
         <div className="flex justify-center mt-4">
-          <Button variant="outline" size="icon">
-            <Image src={google} alt="google" className="w-6 h-6" />
-          </Button>
+          <GoogleSignInButton/>
         </div>
       </div>
     </div>
