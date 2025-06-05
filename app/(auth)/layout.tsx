@@ -2,40 +2,38 @@
 
 import React, { ReactNode } from 'react'
 import Image from 'next/image'
-import backgroundImage from '../../public/movie_background.jpg' // Replace with your image
-import logo from '../../public/logo.svg' // Replace with your actual logo
+import backgroundImage from '../../public/movie_background.jpg'
+import logo from '../../public/logo.svg'
 
-type AuthBackgroundProps = {
-  children: ReactNode
+const AuthLayout = ({ children }: { children: ReactNode }) => {
+  return (
+    <div className="relative w-full h-screen overflow-hidden">
+      {/* Blurred Background */}
+      <Image
+        src={backgroundImage}
+        alt="Background Image"
+        fill
+        className="object-cover blur-md"
+        priority
+      />
+
+      {/* Centered Logo */}
+      <div className="absolute inset-0 flex justify-center items-center z-10">
+        <Image
+          src={logo}
+          alt="CineXStream Logo"
+          width={200}
+          height={80}
+          className="object-contain"
+        />
+      </div>
+
+      {/* Children (Sign-up page, etc.) */}
+      <div className="absolute inset-0 z-20 flex justify-center items-center">
+        {children}
+      </div>
+    </div>
+  )
 }
 
-const AuthBackground: React.FC<AuthBackgroundProps> = ({ children }) => (
-  <div className="relative min-h-screen w-full flex flex-col items-center justify-center bg-{3B0F56} overflow-hidden">
-    {/* Blurred Background Image */}
-    <Image
-      src={backgroundImage}
-      alt="Background"
-      fill
-      priority
-      className="absolute inset-0 object-cover blur-md -z-10"
-    />
-
-    {/* Logo */}
-    <div className="mt-12 mb-8">
-      <Image
-        src={logo}
-        alt="CineXStream Logo"
-        width={200}
-        height={80}
-        className="object-contain"
-      />
-    </div>
-
-    {/* Foreground Content */}
-    <div className="w-full max-w-sm px-6">
-      {children}
-    </div>
-  </div>
-)
-
-export default AuthBackground
+export default AuthLayout
