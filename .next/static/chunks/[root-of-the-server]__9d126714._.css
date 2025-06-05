@@ -449,8 +449,8 @@
     z-index: 10;
   }
 
-  .z-20 {
-    z-index: 20;
+  .z-30 {
+    z-index: 30;
   }
 
   .z-50 {
@@ -566,6 +566,10 @@
     flex-shrink: 0;
   }
 
+  .flex-col {
+    flex-direction: column;
+  }
+
   .items-center {
     align-items: center;
   }
@@ -592,6 +596,10 @@
 
   .gap-2 {
     gap: calc(var(--spacing) * 2);
+  }
+
+  .gap-6 {
+    gap: calc(var(--spacing) * 6);
   }
 
   :where(.space-y-4 > :not(:last-child)) {

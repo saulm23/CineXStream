@@ -44,7 +44,7 @@ const Signup = () => {
         {/* Centered Google Button */}
         <div className="flex justify-center mt-4">
           <Button variant="outline" size="icon">
-            <Image src={google} alt="Google" className="w-6 h-6" />
+            <Image src={google} alt="google" className="w-6 h-6" />
           </Button>
         </div>
       </div>

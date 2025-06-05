@@ -17,20 +17,18 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
         priority
       />
 
-      {/* Centered Logo */}
-      <div className="absolute inset-0 flex justify-center items-center z-10">
-        <Image
-          src={logo}
-          alt="CineXStream Logo"
-          width={200}
-          height={80}
-          className="object-contain"
-        />
-      </div>
-
-      {/* Children (Sign-up page, etc.) */}
-      <div className="absolute inset-0 z-20 flex justify-center items-center">
-        {children}
+      {/* Centered Content with Logo and Form */}
+      <div className="absolute inset-0 z-30 flex justify-center items-center px-4">
+        <div className="flex flex-col items-center gap-6">
+          <Image
+            src={logo}
+            alt="CineXStream Logo"
+            width={160}
+            height={60}
+            className="object-contain"
+          />
+          {children}
+        </div>
       </div>
     </div>
   )
