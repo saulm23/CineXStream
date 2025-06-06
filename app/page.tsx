@@ -8,20 +8,16 @@ import NavigationBar from "@/components1/NavigationBar";
 import Image from "next/image"; 
 import MovieCard from "@/components1/MovieDetailsCard";
 import MovieDetailsCard from "@/components1/MovieDetailsCard";
+import AsientosCabecera from "@/components1/AsientosCabecera";
+import AsientosMain from "@/components1/AsientosMain";
+import CardSeats from "@/components1/CardSeats";
 
 
 export default function Home() {
   return (
     <div>
       <NavigationBar />
-      <MovieDetailsCard
-        title="Sample Movie"
-        trailerUrl="./public/images/sample-trailer.jpg" // Replace with actual video component
-        description="This is a sample movie description."
-        year={2024}
-        location="2:30 hrs"
-
-      />
+      <CardSeats />
       <BottomNavBar />
       
     </div>
