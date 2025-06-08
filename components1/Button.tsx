@@ -1,57 +1,65 @@
 'use client'
 
 import React from 'react'
+import Image, { StaticImageData } from 'next/image'
 import Link from 'next/link'
-import Image from 'next/image'
-import { cn } from '@/lib/utils' // optional if you're using a class merge utility
 
 type ButtonProps = {
-  imgSrc?: string
-  alt?: string
+  Img?: string | StaticImageData
+  ImgAlt?: string
   text?: string
-  href: string
-  className?: string
-  newTab?: boolean
-  ariaLabel?: string
+  redirectTo?: string
+  onClick?: () => void
+  type?: 'button' | 'submit' | 'reset'
   disabled?: boolean
+  className?: string
+  children?: React.ReactNode
+  Icon?: React.ReactNode
 }
 
-const Button: React.FC<ButtonProps> = ({
-  imgSrc,
-  alt = '',
+const Button = ({
+  Img,
+  ImgAlt,
   text,
-  href,
-  className = '',
-  newTab = false,
-  ariaLabel,
+  redirectTo,
+  onClick,
+  type = 'button',
   disabled = false,
-}) => {
-  if (disabled) {
+  className = '',
+  children,
+  Icon,
+}: ButtonProps) => {
+
+
+  const content = (
+    <>
+      {Img && (
+        <Image
+          src={Img}
+          alt={ImgAlt ?? 'button'}
+          width={24}
+          height={24}
+          className="mr-2"
+        />
+      )}
+      {Icon && <span className="mr-2">{Icon}</span>}
+      {text && <span>{text}</span>}
+      {children}
+    </>
+  )
+
+  if (redirectTo) {
     return (
-      <span
-        className={cn(
-          'flex items-center gap-2 px-4 py-2 rounded bg-gray-400 text-white opacity-50 cursor-not-allowed',
-          className
-        )}
-        aria-disabled="true"
-      >
-        {imgSrc && <Image src={imgSrc} alt={alt} width={20} height={20} />}
-        {text && <span>{text}</span>}
-      </span>
+      <Link href={redirectTo} className={className}>
+        {content}
+      </Link>
     )
   }
 
   return (
-    <Link
-      href={href}
-      className={cn('flex items-center gap-2 px-4 py-2 rounded bg-purple-600 text-white', className)}
-      target={newTab ? '_blank' : undefined}
-      rel={newTab ? 'noopener noreferrer' : undefined}
-      aria-label={ariaLabel || text}
-    >
-      {imgSrc && <Image src={imgSrc} alt={alt} width={20} height={20} />}
-      {text && <span>{text}</span>}
-    </Link>
+    <button type={type} onClick={onClick} disabled={disabled} className={className}>
+      {content}
+    </button>
   )
 }
 
