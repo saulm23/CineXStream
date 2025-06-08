@@ -1,7 +1,5 @@
 {
-  "/Profile": "pages/Profile.js",
-  "/Tickets": "pages/Tickets.js",
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
-  "/notifications": "pages/notifications.js"
+  "/_error": "pages/_error.js"
 }
