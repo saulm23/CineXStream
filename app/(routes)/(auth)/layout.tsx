@@ -7,7 +7,7 @@ import logo from '../../../public/logo.svg'
 
 const AuthLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="relative w-full h-screen overflow-hidden">
+    <div className="text-white relative w-full h-screen overflow-hidden">
       <Image
         src={backgroundImage}
         alt="Background Image"
@@ -27,7 +27,10 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
             height={60}
             className="object-contain"
           />
+          <div className="h-full w-full max-m-md mx-auto">
+          {/*<div className="bg-black/70 px-14 py-16">{children}</div>*/}
           {children}
+          </div>
         </div>
       </div>
     </div>
