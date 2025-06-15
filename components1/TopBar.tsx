@@ -1,11 +1,15 @@
-import Image from 'next/image'
-import Link from 'next/link'
-import { Bell } from 'lucide-react'
+import Image from "next/image";
+import Link from "next/link";
+import { Bell } from "lucide-react";
+import SearchComponent from "@/components/SearchComponent";
 
 const TopBar = () => (
   <div className="w-full flex items-center justify-between px-4 py-3 bg-[#120029]">
     <div className="w-10" />
-
+    {/* <SearchComponent/> */}
+    <Link href="/search">
+    <Image src="/lupa.png" alt="Buscar" width={30} height={30}  />
+    </Link>
     <div className="flex justify-center flex-1">
       <Image
         src="/logo.svg"
@@ -23,6 +27,6 @@ const TopBar = () => (
       </Link>
     </div>
   </div>
-)
+);
 
-export default TopBar
+export default TopBar;

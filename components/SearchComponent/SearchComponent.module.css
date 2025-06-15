@@ -1,7 +1,6 @@
-/* 📁 src/components/SearchComponent/SearchComponent.module.css */
 .container {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #581c87, #7c3aed, #581c87);
+  background: linear-gradient(158.7deg, #160326 36.27%, #3B0F56 57%, #571360 77.42%, #6F0666 95.19%);
   color: white;
   padding: 1rem;
   position: relative;
@@ -114,8 +113,8 @@
   top: 100%;
   left: 0;
   right: 0;
-  background: rgba(30, 27, 75, 0.95);
-  border: 1px solid rgba(236, 72, 153, 0.3);
+  background: rgba(58, 51, 66, 0.95);
+  border: 1px solid rgba(245, 230, 238, 0.3);
   border-radius: 1rem;
   margin-top: 0.5rem;
   backdrop-filter: blur(20px);
@@ -426,4 +425,20 @@
   .container {
     scroll-behavior: auto !important;
   }
+}
+/* ... tus estilos existentes ... */
+
+.resultsContainer {
+  padding: 16px;
+  background-color: #2c1a4d;
+  min-height: 100vh;
+  color: white;
+}
+
+.resultsTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  flex-grow: 1;
+  text-align: center;
+  padding-right: 40px; /* Compensa el espacio del botón de volver */
 }
