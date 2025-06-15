@@ -262,5 +262,6 @@ export const useMovieSearch = (apiUrl?: string) => {
     clearRecentSearches,
     removeRecentSearch,
     setSuggestions,
+    allMovies: mockMovies,
   };
 };

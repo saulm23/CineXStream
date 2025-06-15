@@ -1,150 +1,187 @@
+/* components/MovieCard/MovieCard.module.css */
+
+/* --- A. Estilos para la tarjeta individual (Sub-componente SingleMovieDisplay) --- */
 .card {
-  background: linear-gradient(135deg, #2d1b69 0%, #3e2a6d 50%, #4a2d7c 100%);
-  border-radius: 16px;
+  background: linear-gradient(to bottom right, #3b0764, #2c0b4d);
+  border-radius: 1rem;
   overflow: hidden;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(126, 34, 206, 0.3);
+  transition: transform 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  max-width: 380px;
-  margin: 0 auto;
-  transition: all 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.1);
 }
-
 .card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+  transform: translateY(-4px);
 }
-
-.imageContainer {
+.posterWrapper {
   position: relative;
-  width: 100%;
-  height: 280px;
+  height: 250px;
   overflow: hidden;
 }
-
 .poster {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease-in-out;
 }
-
 .card:hover .poster {
   transform: scale(1.05);
 }
-
 .noPoster {
+  width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(to bottom right, #2c0b4d, #1e0734); color: #c4b5fd;
+}
+.cardContent {
+  padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem;
+}
+.title {
+  color: #ffffff; font-weight: 700; font-size: 1.125rem; line-height: 1.3;
+}
+.metaRow {
+  display: flex; justify-content: space-between; align-items: center;
+}
+.year {
+  color: #ddd6fe; font-size: 0.875rem;
+}
+.rating {
+  display: flex; align-items: center; gap: 0.5rem;
+  background-color: rgba(234, 179, 8, 0.2); padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem; border: 1px solid rgba(234, 179, 8, 0.3);
+}
+.starIcon {
+  color: #facc15; fill: currentColor;
+}
+.ratingText {
+  color: #facc15; font-weight: 600; font-size: 0.875rem;
+}
+.genrePill {
+  align-self: flex-start; background: linear-gradient(to right, #7e22ce, #9333ea);
+  color: #ffffff; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem;
+  font-weight: 600; text-transform: uppercase;
+}
+.description {
+  color: #e9d5ff; font-size: 0.875rem; line-height: 1.6; opacity: 0.9;
+}
+
+
+/* --- B. Estilos para el nuevo layout de la página de detalle --- */
+.detailPageContainer {
   width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #1a0f3a 0%, #2d1b69 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.headerContainer {
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.backButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #8b7eb8;
+}
+
+.searchWrapper {
+  flex: 1;
+  position: relative;
+}
+
+.searchIcon {
+  position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+  color: #a78bfa; pointer-events: none;
+}
+
+.searchInput {
+  width: 100%; background-color: transparent;
+  border: 2px solid rgba(107, 33, 168, 0.5); border-radius: 9999px;
+  padding: 0.85rem 2.5rem 0.85rem 3rem; color: white;
   font-size: 1rem;
-  font-weight: 500;
+}
+.searchInput::placeholder {
+  color: #a78bfa;
+}
+.searchInput:focus {
+  outline: none; border-color: #9333ea;
+  box-shadow: 0 0 0 2px rgba(147, 51, 234, 0.2);
 }
 
-.cardContent {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  flex-grow: 1;
+.clearButton {
+  position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
+  color: #a78bfa; background: none; border: none; cursor: pointer; padding: 0.25rem;
+}
+.clearButton:hover {
+  color: white;
 }
 
-.title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #ffffff;
-  margin: 0;
-  line-height: 1.3;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+.mainContent {
+  display: flex; flex-direction: column; gap: 2.5rem;
 }
 
-.metaRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
+.sectionTitle {
+  color: white; font-size: 1.25rem; font-weight: 600;
+  margin-bottom: 1.5rem; padding-left: 0.5rem;
+  border-left: 3px solid #8b5cf6;
 }
 
-.year {
-  font-size: 1rem;
-  color: #c0bacc;
-  font-weight: 500;
+.recommendationsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
 }
 
-.rating {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.95rem;
-  color: #ffd700;
-  font-weight: 600;
-  background: rgba(255, 215, 0, 0.1);
-  padding: 4px 8px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 215, 0, 0.2);
+@media (max-width: 640px) {
+  .recommendationsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+/* ... todos los estilos anteriores ... */
+
+/* --- Estilos para la lista de sugerencias internas --- */
+.internalSuggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #2c0b4d;
+  border: 1px solid #4c1d95;
+  border-radius: 0.75rem;
+  margin-top: 0.5rem;
+  overflow: hidden;
+  z-index: 10;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-.star {
-  font-size: 1.1rem;
-}
-
-.genreContainer {
-  margin-top: 4px;
-}
-
-.genre {
-  display: inline-block;
-  background: linear-gradient(135deg, #5a428a 0%, #6b4d9a 100%);
-  color: #ffffff;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.description {
+.internalSuggestionItem {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  color: #ddd6fe;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
   font-size: 0.9rem;
-  color: #e0d8f0;
-  margin: 0;
-  line-height: 1.5;
-  text-align: justify;
-  opacity: 0.9;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-  .card {
-    max-width: 100%;
-    margin: 0;
-  }
-  
-  .imageContainer {
-    height: 220px;
-  }
-  
-  .cardContent {
-    padding: 16px;
-  }
-  
-  .title {
-    font-size: 1.1rem;
-  }
-  
-  .year, .rating {
-    font-size: 0.9rem;
-  }
-  
-  .description {
-    font-size: 0.85rem;
-  }
+.internalSuggestionItem:not(:last-child) {
+  border-bottom: 1px solid #4c1d95;
+}
+
+.internalSuggestionItem:hover {
+  background-color: #4c1d95;
+  color: white;
 }

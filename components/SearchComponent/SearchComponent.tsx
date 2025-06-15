@@ -1,44 +1,15 @@
+// RUTA: components/SearchComponent/SearchComponent.tsx
+
 "use client";
 
 import React, { useState } from "react";
 import { ChevronLeft, Search, Clock, TrendingUp, X } from "lucide-react";
-import { useMovieSearch } from "@/hooks/useMovieSearch";
+import { useMovieSearch, Movie, SearchItem } from "@/hooks/useMovieSearch";
 import styles from "./SearchComponent.module.css";
-import Link from "next/link";
 import MovieCard from "../MovieCard/MovieCard";
+import Link from "next/link";
 
-export interface SearchItem {
-  id: string;
-  title: string;
-}
-
-export interface Movie {
-  id: string;
-  title: string;
-  year?: string;
-  genre?: string;
-  poster?: string;
-}
-
-export interface SearchComponentProps {
-  onBack?: () => void;
-  onSearch?: (query: string) => void;
-  onSelectItem?: (item: SearchItem) => void;
-  popularMovies?: SearchItem[];
-  apiUrl?: string;
-}
-
-const SearchComponent: React.FC<SearchComponentProps> = ({
-  onBack,
-  onSearch,
-  onSelectItem,
-  popularMovies = [
-    { id: "1", title: "Ne Zha 2" },
-    { id: "2", title: "Lilo & Stitch" },
-    { id: "3", title: "Superman" },
-  ],
-  apiUrl,
-}) => {
+const SearchComponent = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
@@ -52,23 +23,23 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
     clearRecentSearches,
     removeRecentSearch,
     setSuggestions,
-  } = useMovieSearch(apiUrl);
+    allMovies,
+  } = useMovieSearch();
 
+  // --- MANEJADORES DE EVENTOS ---
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchQuery(value);
     if (value.length >= 2) {
       setShowSuggestions(true);
-      debouncedSearch(value);
+      debouncedSearch(value, 300);
     } else {
       setShowSuggestions(false);
       setSuggestions([]);
     }
-    if (onSearch) onSearch(value);
   };
 
   const handleSuggestionClick = (movie: Movie) => {
-    setSearchQuery(movie.title);
     saveToRecentSearches(movie.title);
     setSelectedMovie(movie);
     setShowSuggestions(false);
@@ -77,8 +48,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
   const handleRecentSearchClick = (item: SearchItem) => {
     setSearchQuery(item.title);
     setShowSuggestions(true);
-    debouncedSearch(item.title);
-    if (onSelectItem) onSelectItem(item);
+    debouncedSearch(item.title, 0);
   };
 
   const clearSearch = () => {
@@ -89,46 +59,45 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (searchQuery.trim()) {
-      saveToRecentSearches(searchQuery.trim());
-      setShowSuggestions(false);
-      if (onSelectItem) {
-        onSelectItem({ id: Date.now().toString(), title: searchQuery.trim() });
-      }
+    if (searchQuery.trim() && suggestions.length > 0) {
+      handleSuggestionClick(suggestions[0]);
     }
   };
 
-  const handleBackClick = () => {
-    if (onBack) onBack();
-  };
+  // --- RENDERIZADO CONDICIONAL ---
 
+  // VISTA 1: DETALLE DE LA PELÍCULA
   if (selectedMovie) {
     return (
       <div className={styles.resultsContainer}>
-        <div className={styles.header}>
+        <div className={styles.resultsHeader}>
           <button
-            onClick={() => setSelectedMovie(null)}
-            className={styles.backButton}
+            onClick={() => {
+              setSelectedMovie(null);
+              setSearchQuery('');
+            }}
+            className={styles.backButtonMain}
             aria-label="Volver a la búsqueda"
           >
             <ChevronLeft size={24} />
           </button>
-          <h2 className={styles.resultsTitle}>Resultado</h2>
         </div>
-        <MovieCard pelicula={selectedMovie} />
+        <MovieCard 
+          pelicula={selectedMovie} 
+          allMovies={allMovies || []} 
+          onMovieSelect={setSelectedMovie} // Pasa la función para que MovieCard pueda actualizar el estado
+        />
       </div>
     );
   }
 
+  // VISTA 2: BÚSQUEDA PRINCIPAL
   return (
     <div className={styles.container}>
+      {/* Cabecera con la barra de búsqueda */}
       <div className={styles.header}>
         <Link href="/">
-          <button
-            onClick={handleBackClick}
-            className={styles.backButton}
-            aria-label="Volver"
-          >
+          <button className={styles.backButtonMain} aria-label="Volver al inicio">
             <ChevronLeft size={24} />
           </button>
         </Link>
@@ -162,24 +131,18 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
             </div>
           </form>
 
+          {/* Sugerencias de búsqueda */}
           {showSuggestions && suggestions.length > 0 && (
             <div className={styles.suggestions}>
               {suggestions.map((movie) => (
                 <button
                   key={movie.id}
-                  type="button" // 🔥 ESTA ES LA LÍNEA CLAVE
+                  type="button"
                   onClick={() => handleSuggestionClick(movie)}
                   className={styles.suggestionItem}
                 >
                   <Search size={16} className={styles.suggestionIcon} />
-                  <div className={styles.suggestionContent}>
-                    <span className={styles.suggestionText}>{movie.title}</span>
-                    {movie.year && (
-                      <span className={styles.suggestionYear}>
-                        ({movie.year})
-                      </span>
-                    )}
-                  </div>
+                  <span>{movie.title}</span>
                 </button>
               ))}
             </div>
@@ -187,6 +150,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
         </div>
       </div>
 
+      {/* Sección de Búsquedas Recientes */}
       {recentSearches.length > 0 && (
         <div className={styles.section}>
           <div className={styles.card}>
@@ -196,7 +160,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
               <button
                 onClick={clearRecentSearches}
                 className={styles.clearAllButton}
-                aria-label="Limpiar todas las búsquedas"
+                aria-label="Limpiar búsquedas recientes"
               >
                 <X size={16} />
               </button>
@@ -204,17 +168,10 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
             <div className={styles.tagContainer}>
               {recentSearches.slice(0, 8).map((item) => (
                 <div key={item.id} className={styles.tagWrapper}>
-                  <button
-                    onClick={() => handleRecentSearchClick(item)}
-                    className={styles.tag}
-                  >
+                  <button onClick={() => handleRecentSearchClick(item)} className={styles.tag}>
                     {item.title}
                   </button>
-                  <button
-                    onClick={() => removeRecentSearch(item.id)}
-                    className={styles.removeTag}
-                    aria-label={`Eliminar ${item.title}`}
-                  >
+                  <button onClick={() => removeRecentSearch(item.id)} className={styles.removeTag} aria-label={`Eliminar ${item.title}`}>
                     <X size={12} />
                   </button>
                 </div>
@@ -224,6 +181,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
         </div>
       )}
 
+      {/* Sección de Películas Populares */}
       <div className={styles.section}>
         <div className={styles.popularCard}>
           <div className={styles.sectionHeader}>
@@ -231,39 +189,28 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
             <h2 className={styles.sectionTitle}>Películas populares</h2>
           </div>
           <div className={styles.movieList}>
-            {popularMovies.map((movie, index) => (
+            {(allMovies || []).slice(0, 5).map((movie, index) => (
               <button
                 key={movie.id}
-                onClick={() => {
-                  saveToRecentSearches(movie.title);
-                  if (onSelectItem) onSelectItem(movie);
-                }}
+                onClick={() => handleSuggestionClick(movie)}
                 className={styles.movieItem}
               >
-                <div className={styles.movieContent}>
-                  <div className={styles.movieInfo}>
-                    <span className={styles.movieTitle}>{movie.title}</span>
-                  </div>
-                  <span className={styles.movieRank}>#{index + 1}</span>
-                </div>
+                <span>{movie.title}</span>
+                <span className={styles.movieRank}>#{index + 1}</span>
               </button>
             ))}
           </div>
         </div>
       </div>
 
-      {showSuggestions &&
-        suggestions.length === 0 &&
-        searchQuery.length >= 2 &&
-        !isLoading && (
-          <div className={styles.emptyState}>
-            <Search size={48} className={styles.emptyIcon} />
-            <h3 className={styles.emptyTitle}>No se encontraron resultados</h3>
-            <p className={styles.emptyDescription}>
-              Intenta con otros términos de búsqueda
-            </p>
-          </div>
-        )}
+      {/* Mensaje de "No se encontraron resultados" */}
+      {showSuggestions && suggestions.length === 0 && searchQuery.length >= 2 && !isLoading && (
+        <div className={styles.emptyState}>
+          <Search size={48} className={styles.emptyIcon} />
+          <h3>No se encontraron resultados</h3>
+          <p>Intenta con otros términos de búsqueda.</p>
+        </div>
+      )}
     </div>
   );
 };
