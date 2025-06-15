@@ -430,7 +430,7 @@
 
 .resultsContainer {
   padding: 16px;
-  background-color: #2c1a4d;
+  background: linear-gradient(158.7deg, #160326 36.27%, #3B0F56 57%, #571360 77.42%, #6F0666 95.19%);
   min-height: 100vh;
   color: white;
 }

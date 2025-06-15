@@ -1,0 +1,109 @@
+/* RUTA: components/MovieBooking/BookingForm.module.css */
+
+.formContainer {
+  position: relative; /* Se posiciona sobre el fondo */
+  z-index: 2; /* Al mismo nivel que el contenido del header, no lo tapa */
+  padding: 20px;
+  margin-top: auto; /* ¡TRUCO! Empuja este formulario hacia la parte inferior del contenedor flex */
+  color: white;
+}
+
+.selectDayButton {
+  width: 100%;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  border-radius: 25px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.dateSelector {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  overflow-x: auto; /* Permite scroll horizontal si no caben */
+  padding-bottom: 10px; /* Espacio para la barra de scroll */
+}
+
+.dateButton {
+  flex-shrink: 0; /* Evita que los botones se encojan */
+  background: rgba(40, 20, 60, 0.6);
+  border: 1.5px solid #4a2c6d;
+  color: #ccc;
+  padding: 12px 18px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-align: center;
+}
+
+.dateButton.active {
+  background: white;
+  color: #333;
+  font-weight: bold;
+  border-color: white;
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.dayName {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 4px;
+  text-transform: capitalize;
+}
+
+.dayNumber {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.timeSelector {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.timeButton {
+  background: rgba(40, 20, 60, 0.6);
+  border: 1.5px solid #4a2c6d;
+  color: white;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.timeButton.active {
+  background: white;
+  color: #333;
+  font-weight: bold;
+  transform: scale(1.05);
+}
+
+.confirmButton {
+  width: 100%;
+  padding: 18px;
+  background-color: white;
+  color: #333;
+  border: none;
+  border-radius: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.noSchedules {
+  text-align: center;
+  color: #ccc;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 15px;
+}

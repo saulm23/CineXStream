@@ -7,13 +7,17 @@ import { ChevronLeft, Search, Clock, TrendingUp, X } from "lucide-react";
 import { useMovieSearch, Movie, SearchItem } from "@/hooks/useMovieSearch";
 import styles from "./SearchComponent.module.css";
 import MovieCard from "../MovieCard/MovieCard";
+import MovieBooking from "../MovieBooking/MovieBooking";
 import Link from "next/link";
 
 const SearchComponent = () => {
+  // --- ESTADOS QUE CONTROLAN LA UI ---
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
+  const [bookingMovie, setBookingMovie] = useState<Movie | null>(null);
 
+  // Obtenemos los datos y la lógica del hook personalizado
   const {
     suggestions,
     recentSearches,
@@ -27,6 +31,7 @@ const SearchComponent = () => {
   } = useMovieSearch();
 
   // --- MANEJADORES DE EVENTOS ---
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchQuery(value);
@@ -41,7 +46,7 @@ const SearchComponent = () => {
 
   const handleSuggestionClick = (movie: Movie) => {
     saveToRecentSearches(movie.title);
-    setSelectedMovie(movie);
+    setSelectedMovie(movie); // Cambia a la VISTA DE DETALLE
     setShowSuggestions(false);
   };
 
@@ -64,18 +69,25 @@ const SearchComponent = () => {
     }
   };
 
-  // --- RENDERIZADO CONDICIONAL ---
+  // --- RENDERIZADO CONDICIONAL DE 3 NIVELES ---
 
-  // VISTA 1: DETALLE DE LA PELÍCULA
+  // VISTA 1: PANTALLA DE RESERVA (si `bookingMovie` tiene datos)
+  if (bookingMovie) {
+    return (
+      <MovieBooking 
+        movie={bookingMovie} // <-- CAMBIO CLAVE: Pasamos el objeto completo
+        onBack={() => setBookingMovie(null)} 
+      />
+    );
+  }
+
+  // VISTA 2: PÁGINA DE DETALLE (si `selectedMovie` tiene datos)
   if (selectedMovie) {
     return (
       <div className={styles.resultsContainer}>
         <div className={styles.resultsHeader}>
           <button
-            onClick={() => {
-              setSelectedMovie(null);
-              setSearchQuery('');
-            }}
+            onClick={() => setSelectedMovie(null)}
             className={styles.backButtonMain}
             aria-label="Volver a la búsqueda"
           >
@@ -85,22 +97,17 @@ const SearchComponent = () => {
         <MovieCard 
           pelicula={selectedMovie} 
           allMovies={allMovies || []} 
-          onMovieSelect={setSelectedMovie} // Pasa la función para que MovieCard pueda actualizar el estado
+          onMovieSelect={setSelectedMovie}
+          onBookMovie={setBookingMovie} // Pasa la función para activar la VISTA DE RESERVA
         />
       </div>
     );
   }
 
-  // VISTA 2: BÚSQUEDA PRINCIPAL
+  // VISTA 3: PANTALLA DE BÚSQUEDA (la vista por defecto)
   return (
     <div className={styles.container}>
-      {/* Cabecera con la barra de búsqueda */}
       <div className={styles.header}>
-        <Link href="/">
-          <button className={styles.backButtonMain} aria-label="Volver al inicio">
-            <ChevronLeft size={24} />
-          </button>
-        </Link>
         <div className={styles.searchWrapper}>
           <form onSubmit={handleSubmit} className={styles.searchForm}>
             <div className={styles.searchInput}>
@@ -131,7 +138,6 @@ const SearchComponent = () => {
             </div>
           </form>
 
-          {/* Sugerencias de búsqueda */}
           {showSuggestions && suggestions.length > 0 && (
             <div className={styles.suggestions}>
               {suggestions.map((movie) => (
@@ -150,7 +156,6 @@ const SearchComponent = () => {
         </div>
       </div>
 
-      {/* Sección de Búsquedas Recientes */}
       {recentSearches.length > 0 && (
         <div className={styles.section}>
           <div className={styles.card}>
@@ -181,7 +186,6 @@ const SearchComponent = () => {
         </div>
       )}
 
-      {/* Sección de Películas Populares */}
       <div className={styles.section}>
         <div className={styles.popularCard}>
           <div className={styles.sectionHeader}>
@@ -203,7 +207,6 @@ const SearchComponent = () => {
         </div>
       </div>
 
-      {/* Mensaje de "No se encontraron resultados" */}
       {showSuggestions && suggestions.length === 0 && searchQuery.length >= 2 && !isLoading && (
         <div className={styles.emptyState}>
           <Search size={48} className={styles.emptyIcon} />

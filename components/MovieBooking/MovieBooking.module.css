@@ -1,0 +1,16 @@
+
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex; /* Usamos flexbox para controlar a los hijos */
+  flex-direction: column; /* Apila los hijos verticalmente */
+  background-color: #140322;
+  position: relative; /* Contexto para el fondo */
+  overflow: hidden;
+}
+
+.message {
+  color: white;
+  text-align: center;
+  margin: auto;
+}
