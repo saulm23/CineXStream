@@ -11,7 +11,7 @@ import MovieBooking from "../MovieBooking/MovieBooking";
 import Link from "next/link";
 
 const SearchComponent = () => {
-  // --- ESTADOS QUE CONTROLAN LA UI ---
+  // --- Estados que controlan la UI ---
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
@@ -30,8 +30,7 @@ const SearchComponent = () => {
     allMovies,
   } = useMovieSearch();
 
-  // --- MANEJADORES DE EVENTOS ---
-
+  // --- MANEJADORES DE EVENTOS (sin cambios) ---
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchQuery(value);
@@ -43,25 +42,21 @@ const SearchComponent = () => {
       setSuggestions([]);
     }
   };
-
   const handleSuggestionClick = (movie: Movie) => {
     saveToRecentSearches(movie.title);
-    setSelectedMovie(movie); // Cambia a la VISTA DE DETALLE
+    setSelectedMovie(movie);
     setShowSuggestions(false);
   };
-
   const handleRecentSearchClick = (item: SearchItem) => {
     setSearchQuery(item.title);
     setShowSuggestions(true);
     debouncedSearch(item.title, 0);
   };
-
   const clearSearch = () => {
     setSearchQuery("");
     setShowSuggestions(false);
     setSuggestions([]);
   };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim() && suggestions.length > 0) {
@@ -71,17 +66,17 @@ const SearchComponent = () => {
 
   // --- RENDERIZADO CONDICIONAL DE 3 NIVELES ---
 
-  // VISTA 1: PANTALLA DE RESERVA (si `bookingMovie` tiene datos)
+  // VISTA 1: PANTALLA DE RESERVA
   if (bookingMovie) {
     return (
       <MovieBooking 
-        movie={bookingMovie} // <-- CAMBIO CLAVE: Pasamos el objeto completo
+        movie={bookingMovie}
         onBack={() => setBookingMovie(null)} 
       />
     );
   }
 
-  // VISTA 2: PÁGINA DE DETALLE (si `selectedMovie` tiene datos)
+  // VISTA 2: PÁGINA DE DETALLE
   if (selectedMovie) {
     return (
       <div className={styles.resultsContainer}>
@@ -98,16 +93,24 @@ const SearchComponent = () => {
           pelicula={selectedMovie} 
           allMovies={allMovies || []} 
           onMovieSelect={setSelectedMovie}
-          onBookMovie={setBookingMovie} // Pasa la función para activar la VISTA DE RESERVA
+          onBookMovie={setBookingMovie}
         />
       </div>
     );
   }
 
-  // VISTA 3: PANTALLA DE BÚSQUEDA (la vista por defecto)
+  // VISTA 3: PANTALLA DE BÚSQUEDA (CON BOTÓN DE VOLVER AÑADIDO)
   return (
     <div className={styles.container}>
       <div className={styles.header}>
+        {/* ▼▼▼ CÓDIGO AÑADIDO ▼▼▼ */}
+        <Link href="/" passHref>
+          <button className={styles.backButtonMain} aria-label="Volver al inicio">
+            <ChevronLeft size={24} />
+          </button>
+        </Link>
+        {/* ▲▲▲ FIN DEL CÓDIGO AÑADIDO ▲▲▲ */}
+
         <div className={styles.searchWrapper}>
           <form onSubmit={handleSubmit} className={styles.searchForm}>
             <div className={styles.searchInput}>
