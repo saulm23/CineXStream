@@ -1,44 +1,44 @@
-'use client'
+'use client';
 
-import React from 'react'
-import Image from 'next/image'
+import { ReactNode, useRef } from "react";
 
-const placeholderMovies = [
-  {
-    title: 'Spider-Man: No Way Home',
-    cover: '/spiderman.jpg',
-  },
-  {
-    title: 'Doctor Strange',
-    cover: '/spiderman.jpg',
-  },
-  {
-    title: 'Black Panther',
-    cover: '/spiderman.jpg',
-  },
-]
+type CarouselProps = {
+  children: ReactNode;
+  className?: string;
+};
 
-const Carousel = () => {
+const Carousel = ({ children, className }: CarouselProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
   return (
-    <div className="overflow-x-auto whitespace-nowrap py-4 px-2">
-      {placeholderMovies.map((movie, index) => (
-        <div
-          key={index}
-          className="inline-block mx-2 w-40 flex-shrink-0"
-        >
-          <div className="relative h-56 w-full rounded-lg overflow-hidden">
-            <Image
-              src={movie.cover}
-              alt={movie.title}
-              fill
-              className="object-cover"
-            />
-          </div>
-          <p className="text-white text-sm mt-2 text-center">{movie.title}</p>
-        </div>
-      ))}
+    <div
+      ref={containerRef}
+      className={`overflow-x-auto scroll-smooth snap-x snap-mandatory px-4 ${className}`}
+      style={{
+        WebkitOverflowScrolling: 'touch', // iOS momentum scroll
+        scrollbarWidth: 'none', // Firefox
+      }}
+    >
+      <div
+        className="flex gap-4"
+        style={{
+          scrollSnapType: 'x mandatory',
+          paddingBottom: '1rem',
+        }}
+      >
+        {Array.isArray(children)
+          ? children.map((child, index) => (
+              <div
+                key={index}
+                className="snap-start shrink-0 transition-transform duration-300 ease-in-out"
+              >
+                {child}
+              </div>
+            ))
+          : children}
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Carousel
+export default Carousel;

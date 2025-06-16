@@ -1,35 +1,66 @@
-"use client";
+'use client'
 
-import React from "react";
-import Link from "next/link";
+import React from 'react'
+import Image, { StaticImageData } from 'next/image'
+import Link from 'next/link'
 
 type ButtonProps = {
-  href: string;
-  text: string;
-  imgSrc?: string;
-  imgAlt?: string;
-  className?: string;
-};
+  Img?: string | StaticImageData
+  ImgAlt?: string
+  text?: string
+  redirectTo?: string
+  onClick?: () => void
+  type?: 'button' | 'submit' | 'reset'
+  disabled?: boolean
+  className?: string
+  children?: React.ReactNode
+  Icon?: React.ReactNode
+}
 
-const Button = ({ href, text, imgSrc, imgAlt, className }: ButtonProps) => {
-  return (
-    <Link
-      href={href}
-      className={`flex items-center gap-2 px-4 py-2 rounded-md bg-purple-700 text-white hover:bg-purple-800 transition ${
-        className || ""
-      }`}
-    >
-      {imgSrc && (
+const Button = ({
+  Img,
+  ImgAlt,
+  text,
+  redirectTo,
+  onClick,
+  type = 'button',
+  disabled = false,
+  className = '',
+  children,
+  Icon,
+}: ButtonProps) => {
+
+
+  const content = (
+    <>
+      {Img && (
         <Image
-          src={imgSrc}
-          alt={imgAlt || "button icon"}
+          src={Img}
+          alt={ImgAlt ?? 'button'}
           width={24}
           height={24}
+          className="mr-2"
         />
       )}
+      {Icon && <span className="mr-2">{Icon}</span>}
       {text && <span>{text}</span>}
-    </Link>
-  );
-};
+      {children}
+    </>
+  )
 
-export default Button;
+  if (redirectTo) {
+    return (
+      <Link href={redirectTo} className={className}>
+        {content}
+      </Link>
+    )
+  }
+
+  return (
+    <button type={type} onClick={onClick} disabled={disabled} className={className}>
+      {content}
+    </button>
+  )
+}
+
+export default Button
