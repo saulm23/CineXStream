@@ -1,37 +1,30 @@
+'use client';
+
 import Image from 'next/image';
-import { db } from '@/lib/db';
+import React from 'react';
 
 type MovieBannerProps = {
-  id: string;
+  title: string;
+  thumbnailUrl: string;
 };
 
-const MovieBanner = async ({ id }: MovieBannerProps) => {
-  const movie = await db.movie.findUnique({
-    where: { id },
-    select: {
-      title: true,
-      genre: true,
-      thumbnailUrl: true,
-    },
-  });
-
-  if (!movie) {
-    return <div className="text-white p-6 text-center">Película no encontrada</div>;
-  }
-
+const MovieBanner = ({ title, thumbnailUrl }: MovieBannerProps) => {
   return (
-    <div className="w-full max-w-3xl mx-auto px-4 py-6 text-center">
-      <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-lg mb-4">
-        <Image
-          src={movie.thumbnailUrl}
-          alt={movie.title}
-          fill
-          className="object-cover"
-        />
-      </div>
+    <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-xl mx-auto max-w-4xl">
+      <Image
+        src={thumbnailUrl}
+        alt={title}
+        fill
+        priority
+        className="object-cover"
+      />
 
-      <h1 className="text-3xl font-extrabold text-white mb-2">{movie.title}</h1>
-      <p className="text-pink-400 text-lg font-medium">{movie.genre}</p>
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
+      <div className="absolute bottom-6 left-6 z-10">
+        <h2 className="text-white text-4xl font-bold drop-shadow-lg">
+          {title}
+        </h2>
+      </div>
     </div>
   );
 };
